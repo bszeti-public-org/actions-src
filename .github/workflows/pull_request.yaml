@@ -38,7 +38,7 @@ jobs:
   #         echo $EVENT_CONTEXT | jq .
 
   # We don't fail "myjob" here
-  validation_or_pipeline:
+  status-checks:
     runs-on: ubuntu-latest
     steps:
       - run: |
