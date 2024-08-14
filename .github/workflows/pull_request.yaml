@@ -29,13 +29,13 @@ on:
       # - auto_merge_disabled
 
 jobs:
-  event:
-    runs-on: ubuntu-latest
-    steps:
-      - env:
-          EVENT_CONTEXT: ${{ toJSON(github.event) }}
-        run: |
-          echo $EVENT_CONTEXT | jq .
+  # event:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - env:
+  #         EVENT_CONTEXT: ${{ toJSON(github.event) }}
+  #       run: |
+  #         echo $EVENT_CONTEXT | jq .
 
   # We don't fail "myjob" here
   validation_or_pipeline:
