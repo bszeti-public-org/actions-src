@@ -1,0 +1,13 @@
+name: Pull request
+
+on:
+  merge_group:
+
+jobs:
+  merge_group:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Dummy merge_group run."
+          sleep 1
+          echo "Done"
