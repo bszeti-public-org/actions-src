@@ -21,20 +21,20 @@ jobs:
       - name: Get all changed files
         id: changed-files
         uses: tj-actions/changed-files@v44
-        # with:
-        #   files: |
-        #      **.json
+        with:
+          files: |
+             **.json
 
       - name: List all changed files markdown files
         # if: steps.changed-markdown-files.outputs.any_changed == 'true'
         env:
-          ALL_CHANGED_FILES: ${{ steps.changed-markdown-files.outputs.all_changed_files }}
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
 
-      - if: steps.changed-markdown-files.outputs.any_changed == 'true'
+      - if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           echo "Creating artifact..."
           sleep 10
