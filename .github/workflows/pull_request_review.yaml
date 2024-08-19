@@ -23,10 +23,12 @@ jobs:
         uses: tj-actions/changed-files@v44
         with:
           files: |
-             **-test.json
+             **/*-test.json
+             **/*.xml
+             **.md
 
       - name: List all changed files markdown files
-        # if: steps.changed-markdown-files.outputs.any_changed == 'true'
+        # if: steps.changed-files.outputs.any_changed == 'true'
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
