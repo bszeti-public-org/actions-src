@@ -23,5 +23,12 @@ jobs:
           echo "Running validation."
           sleep 3
           echo "Done"
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Dummy run."
+          sleep 1
+          echo "Done"
 
     
