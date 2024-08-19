@@ -23,7 +23,7 @@ jobs:
         uses: tj-actions/changed-files@v44
         with:
           files: |
-             **.json
+             **-test.json
 
       - name: List all changed files markdown files
         # if: steps.changed-markdown-files.outputs.any_changed == 'true'
