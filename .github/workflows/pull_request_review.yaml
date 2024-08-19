@@ -21,9 +21,9 @@ jobs:
       - name: Get all changed files
         id: changed-files
         uses: tj-actions/changed-files@v44
-        with:
-          files: |
-             **.json
+        # with:
+        #   files: |
+        #      **.json
 
       - name: List all changed files markdown files
         # if: steps.changed-markdown-files.outputs.any_changed == 'true'
