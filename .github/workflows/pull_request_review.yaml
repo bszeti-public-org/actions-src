@@ -23,7 +23,7 @@ jobs:
         uses: tj-actions/changed-files@v44
         with:
           files: |
-             **-test.json
+             **/*-test.json
              **/*.xml
              **/*y.md
 
