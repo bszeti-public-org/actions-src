@@ -1,4 +1,4 @@
-name: Pull request
+name: Merge group
 
 on:
   merge_group:
