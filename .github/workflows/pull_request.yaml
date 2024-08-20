@@ -26,6 +26,7 @@ jobs:
           echo _links.html.href: ${{ github.event.pull_request._links.html.href }}
           
           pr_files_json=$(gh pr view ${{ github.event.pull_request.html_url }} --json files)
+          echo $pr_files_json | jq .
           # gh pr view ${{ github.event.pull_request.number }} --json files 
           
           # changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
