@@ -5,13 +5,16 @@ on:
   pull_request:
 
 jobs:
-  # event:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - env:
-  #         EVENT_CONTEXT: ${{ toJSON(github.event) }}
-  #       run: |
-  #         echo $EVENT_CONTEXT | jq .
+  event:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          EVENT_CONTEXT: ${{ toJSON(github.event) }}
+        run: |
+          echo $EVENT_CONTEXT | jq .
+      - name: Try gh cli
+        run: |
+          gh pr view ${{ github.event.pull_request.number }} | jq .
 
   # We don't fail "myjob" here
   validation:

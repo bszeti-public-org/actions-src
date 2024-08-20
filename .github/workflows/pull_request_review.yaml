@@ -12,6 +12,13 @@ jobs:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
         run: |
           echo $EVENT_CONTEXT | jq .
+  
+  gh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Try gh cli
+        run: |
+          gh pr view ${{ github.event.pull_request.number }} | jq .
 
   pipeline:
     runs-on: ubuntu-latest
