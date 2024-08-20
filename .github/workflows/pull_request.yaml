@@ -26,7 +26,7 @@ jobs:
           
           any_changed=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '[ .files.[].path | test(".*json") ] | any')
           echo any_changed=$any_changed | tee $GITHUB_OUTPUT
-      - if: ${{ steps.gh_changed_files.outputs.any_changed == 'true') }}
+      - if: ${{ steps.gh_changed_files.outputs.any_changed == 'true' }}
         run: |
           echo "any_changed is true"
           echo ${{ steps.gh_changed_files.outputs.changed_files }}
