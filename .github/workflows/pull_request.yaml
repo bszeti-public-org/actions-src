@@ -32,9 +32,11 @@ jobs:
           # gh pr view ${{ github.event.pull_request.number }} --json files 
           
           # changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
+          echo XX
           echo "$pr_files_json" | jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))'
+          echo XX
           changed_files=$(echo "$pr_files_json" | jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
-          echo changed_files=$changed_files | tee -a $GITHUB_OUTPUT
+          echo changed_files="$changed_files" | tee -a $GITHUB_OUTPUT
           
           # any_changed=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '[ .files.[].path | test("${{env.FILE_FILTER_REGEXP}}") ] | any')
           any_changed=$(echo "$pr_files_json" | jq '[ .files.[].path | test("${{env.FILE_FILTER_REGEXP}}") ] | any')
