@@ -30,7 +30,7 @@ jobs:
           
           pr_files_json=$(gh pr view ${{ github.event.pull_request.html_url }} --json files)
           echo -
-          echo "$pr_files_json" | jq '.files.[].path'
+          echo "$pr_files_json" | jq '.files'
           echo -
           # gh pr view ${{ github.event.pull_request.number }} --json files 
           
