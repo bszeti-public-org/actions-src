@@ -32,15 +32,17 @@ jobs:
           # gh pr view ${{ github.event.pull_request.number }} --json files 
           
           # changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
-          echo XX
+          echo 11
           echo "$pr_files_json" | jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))'
-          echo XX
+          echo 22
           changed_files=$(echo "$pr_files_json" | jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
           echo changed_files="$changed_files" | tee -a $GITHUB_OUTPUT
+          echo 33
           
           # any_changed=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '[ .files.[].path | test("${{env.FILE_FILTER_REGEXP}}") ] | any')
           any_changed=$(echo "$pr_files_json" | jq '[ .files.[].path | test("${{env.FILE_FILTER_REGEXP}}") ] | any')
           echo any_changed=$any_changed | tee -a $GITHUB_OUTPUT
+          echo 44
       - if: ${{ steps.gh_changed_files.outputs.any_changed == 'true' }}
         run: |
           echo "any_changed is true"
