@@ -14,12 +14,15 @@ jobs:
           echo $EVENT_CONTEXT | jq .
       - uses: actions/checkout@v4
       - name: Try gh cli
+        id: gh_changed_files
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           # gh pr view ${{ github.event.pull_request.url }}
           gh pr view ${{ github.event.pull_request.number }}
-          gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path'
+          echo changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path') >>$GITHUB_OUTPUT
+      - if: ${{ steps.gh_changed_files.outputs.changed_files }}
+        
 
   # We don't fail "myjob" here
   validation:
