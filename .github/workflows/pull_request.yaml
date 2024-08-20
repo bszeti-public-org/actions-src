@@ -38,7 +38,7 @@ jobs:
           echo 11
           echo "$pr_files_json" | jq '.files[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))'
           echo 22
-          changed_files=$(echo "$pr_files_json" | jq '.files[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
+          changed_files=$(echo "$pr_files_json" | jq -r '.files[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
           echo changed_files=$changed_files | tee -a $GITHUB_OUTPUT
           echo 33
           
