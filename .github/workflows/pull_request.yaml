@@ -24,13 +24,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          echo url: ${{ github.event.pull_request.url }}
-          echo html_url: ${{ github.event.pull_request.html_url }}
-          echo _links.html.href: ${{ github.event.pull_request._links.html.href }}
+          # echo url: ${{ github.event.pull_request.url }}
+          # echo html_url: ${{ github.event.pull_request.html_url }}
+          # echo _links.html.href: ${{ github.event.pull_request._links.html.href }}
           
           pr_files_json=$(gh pr view ${{ github.event.pull_request.html_url }} --json files)
           echo -
-          echo "$pr_files_json" | jq .
+          echo "$pr_files_json" | jq '.files.[].path'
           echo -
           # gh pr view ${{ github.event.pull_request.number }} --json files 
           
