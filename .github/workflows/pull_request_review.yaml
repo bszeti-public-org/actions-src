@@ -42,18 +42,18 @@ jobs:
     steps:
       - name: List all changed files 2
         env:
-          ALL_CHANGED_FILES: ${{ jobs.pipeline.outputs.all_changed_files }}
+          ALL_CHANGED_FILES: ${{ needs.pipeline.outputs.all_changed_files }}
         run: |
           for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
       # Build...
-      - if: jobs.pipeline.outputs.any_changed == 'true'
+      - if: needs.pipeline.outputs.any_changed == 'true'
         run: |
           echo "Creating artifact..."
           sleep 10
           echo "Done"
-      - if: steps.changed-files.outputs.any_changed == 'true' && contains(github.event.pull_request.title , 'fail')
+      - if: needs.pipeline.outputs.any_changed == 'true' && contains(github.event.pull_request.title , 'fail')
         run: |
           echo "::error ::Failing...."
           exit 1
