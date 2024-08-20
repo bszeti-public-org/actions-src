@@ -3,6 +3,7 @@ name: Pull request
 on:
   workflow_dispatch:
   pull_request:
+  pull_request_review:
 env:
   FILE_FILTER_REGEXP: ".*json"
 
@@ -26,7 +27,7 @@ jobs:
           echo html_url: ${{ github.event.pull_request.html_url }}
           echo _links.html.href: ${{ github.event.pull_request._links.html.href }}
           # gh pr view ${{ github.event.pull_request.self.href }}
-          gh pr view ${{ github.event.pull_request.html.href }} --json files
+          gh pr view ${{ github.event.pull_request.html_url }} --json files
           # gh pr view ${{ github.event.pull_request.number }} --json files 
           
           changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
