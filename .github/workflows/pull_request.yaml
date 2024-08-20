@@ -21,8 +21,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh --version
-          gh pr view -h
           echo url: ${{ github.event.pull_request.url }}
           echo html_url: ${{ github.event.pull_request.html_url }}
           echo _links.html.href: ${{ github.event.pull_request._links.html.href }}
