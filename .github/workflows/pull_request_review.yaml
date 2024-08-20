@@ -16,6 +16,9 @@ jobs:
   pipeline:
     runs-on: ubuntu-latest
     if: github.event_name=='workflow_dispatch' || github.event.review.state == 'approved'
+    outputs:
+      any_changed: ${{ steps.changed-files.outputs.any_changed }}
+      all_changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
     steps:
       # Check changed files
       - name: Get all changed files
@@ -38,15 +41,14 @@ jobs:
     needs: pipeline
     steps:
       - name: List all changed files 2
-        # if: steps.changed-files.outputs.any_changed == 'true'
         env:
-          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          ALL_CHANGED_FILES: ${{ jobs.pipeline.outputs.all_changed_files }}
         run: |
           for file in ${ALL_CHANGED_FILES}; do
             echo "$file was changed"
           done
       # Build...
-      - if: steps.changed-files.outputs.any_changed == 'true'
+      - if: jobs.pipeline.outputs.any_changed == 'true'
         run: |
           echo "Creating artifact..."
           sleep 10
