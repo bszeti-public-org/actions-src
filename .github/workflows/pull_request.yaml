@@ -3,6 +3,8 @@ name: Pull request
 on:
   workflow_dispatch:
   pull_request:
+env:
+  FILE_FILTER_REGEXP: ".*json"
 
 jobs:
   event:
@@ -17,15 +19,14 @@ jobs:
         id: gh_changed_files
         env:
           GH_TOKEN: ${{ github.token }}
-          FILE_FILTER: ".*json"
         run: |
           # gh pr view ${{ github.event.pull_request.url }}
           gh pr view ${{ github.event.pull_request.number }} --json files 
           
-          changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path | select(test("${{env.FILE_FILTER}}"))')
+          changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
           echo changed_files=$changed_files | tee -a $GITHUB_OUTPUT
           
-          any_changed=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '[ .files.[].path | test("${{env.FILE_FILTER}}") ] | any')
+          any_changed=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '[ .files.[].path | test("${{env.FILE_FILTER_REGEXP}}") ] | any')
           echo any_changed=$any_changed | tee -a $GITHUB_OUTPUT
       - if: ${{ steps.gh_changed_files.outputs.any_changed == 'true' }}
         run: |
