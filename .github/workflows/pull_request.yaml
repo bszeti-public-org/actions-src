@@ -22,7 +22,7 @@ jobs:
           gh pr view ${{ github.event.pull_request.number }}
           gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path'
           echo changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path') >>$GITHUB_OUTPUT
-      - if: ${{ contains(steps.gh_changed_files.outputs.changed_files, 'vrp.json') }}
+      - if: ${{ contains(steps.gh_changed_files.outputs.changed_files, 'test.json') }}
         run: |
           echo "Yes"
           echo ${{ steps.gh_changed_files.outputs.changed_files }}
