@@ -12,6 +12,7 @@ jobs:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
         run: |
           echo $EVENT_CONTEXT | jq .
+      - uses: actions/checkout@v4
       - name: Try gh cli
         env:
           GH_TOKEN: ${{ github.token }}
