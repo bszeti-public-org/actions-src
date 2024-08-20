@@ -27,7 +27,7 @@ jobs:
           # echo url: ${{ github.event.pull_request.url }}
           # echo html_url: ${{ github.event.pull_request.html_url }}
           # echo _links.html.href: ${{ github.event.pull_request._links.html.href }}
-          
+          jq -h
           pr_files_json=$(gh pr view ${{ github.event.pull_request.html_url }} --json files)
           echo -
           echo "$pr_files_json" | jq '.files.[]'
