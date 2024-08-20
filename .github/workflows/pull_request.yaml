@@ -3,15 +3,51 @@ name: Pull request
 on:
   workflow_dispatch:
   pull_request:
+  pull_request_review:
+env:
+  FILE_FILTER_REGEXP: ".*json"
+
+
+
 
 jobs:
-  # event:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - env:
-  #         EVENT_CONTEXT: ${{ toJSON(github.event) }}
-  #       run: |
-  #         echo $EVENT_CONTEXT | jq .
+  event:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          EVENT_CONTEXT: ${{ toJSON(github.event) }}
+        run: |
+          echo $EVENT_CONTEXT | jq .
+      # - uses: actions/checkout@v4
+      - name: Try gh cli
+        id: gh_changed_files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # gh pr view ${{ github.event.pull_request.number }} --json files                  ## Needs actions/checkout
+          pr_files_json=$(gh pr view ${{ github.event.pull_request.html_url }} --json files)
+
+          # changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
+          changed_files=$(echo "$pr_files_json" | jq -r '.files[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
+          echo changed_files=$changed_files | tee -a $GITHUB_OUTPUT
+          
+          # any_changed=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '[ .files.[].path | test("${{env.FILE_FILTER_REGEXP}}") ] | any')
+          any_changed=$(echo "$pr_files_json" | jq '[ .files[].path | test("${{env.FILE_FILTER_REGEXP}}") ] | any')
+          echo any_changed=$any_changed | tee -a $GITHUB_OUTPUT
+          echo GITHUB_OUTPUT:
+          cat $GITHUB_OUTPUT
+          
+      - if: ${{ steps.gh_changed_files.outputs.any_changed == 'true' }}
+        run: |
+          echo "any_changed is true"
+          echo ${{ steps.gh_changed_files.outputs.changed_files }}
+        
+          
+      # - if: ${{ contains(steps.gh_changed_files.outputs.changed_files, 'test.json') }}
+      #   run: |
+      #     echo "Yes"
+      #     echo ${{ steps.gh_changed_files.outputs.changed_files }}
+        
 
   # We don't fail "myjob" here
   validation:
@@ -22,4 +58,3 @@ jobs:
           sleep 3
           echo "Done"
 
-    
