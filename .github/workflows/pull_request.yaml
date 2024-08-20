@@ -14,7 +14,7 @@ jobs:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
         run: |
           echo $EVENT_CONTEXT | jq .
-      - uses: actions/checkout@v4
+      # - uses: actions/checkout@v4
       - name: Try gh cli
         id: gh_changed_files
         env:
