@@ -21,7 +21,10 @@ jobs:
           # gh pr view ${{ github.event.pull_request.url }}
           gh pr view ${{ github.event.pull_request.number }}
           echo changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path') >>$GITHUB_OUTPUT
-      - if: ${{ steps.gh_changed_files.outputs.changed_files }}
+      - if: ${{ contains(steps.gh_changed_files.outputs.changed_files, 'vrp.json') }}
+        run: |
+          echo "Yes"
+          echo ${{ steps.gh_changed_files.outputs.changed_files }}
         
 
   # We don't fail "myjob" here
