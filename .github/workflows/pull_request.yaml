@@ -20,8 +20,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          echo ${{ github.event.pull_request.url }}
-          gh pr view ${{ github.event.pull_request.self.href }}
+          # echo ${{ github.event.pull_request.url }}
+          # gh pr view ${{ github.event.pull_request.self.href }}
+          gh pr view ${{ github.event.pull_request.html.href }}
           gh pr view ${{ github.event.pull_request.number }} --json files 
           
           changed_files=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files.[].path | select(test("${{env.FILE_FILTER_REGEXP}}"))')
