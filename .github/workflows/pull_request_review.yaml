@@ -23,8 +23,8 @@ jobs:
         uses: tj-actions/changed-files@v44
         with:
           files: |
-             **/*-test.json
-      - name: List all changed files markdown files
+             **/*.json
+      - name: List all changed files 1
         if: steps.changed-files.outputs.any_changed == 'true'
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -33,6 +33,18 @@ jobs:
             echo "$file was changed"
           done
 
+  myjob:
+    runs-on: ubuntu-latest
+    needs: pipeline
+    steps:
+      - name: List all changed files 2
+        # if: steps.changed-files.outputs.any_changed == 'true'
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          for file in ${ALL_CHANGED_FILES}; do
+            echo "$file was changed"
+          done
       # Build...
       - if: steps.changed-files.outputs.any_changed == 'true'
         run: |
